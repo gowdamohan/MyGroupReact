@@ -110,17 +110,17 @@ const Groups: React.FC = () => {
         {groupsData && (
           <>
             <Grid container spacing={3}>
-              {groupsData.groups.map((group: Group) => (
+              {groupsData.data.map((group: Group) => (
                 <Grid item xs={12} sm={6} md={4} key={group.id}>
                   <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Box display="flex" alignItems="center" gap={1} mb={2}>
                         <GroupIcon color="primary" />
                         <Typography variant="h6" component="h3" noWrap>
-                          {group.group_name}
+                          {group.name}
                         </Typography>
                       </Box>
-                      
+
                       <Typography
                         variant="body2"
                         color="text.secondary"
@@ -132,25 +132,11 @@ const Groups: React.FC = () => {
                           mb: 2,
                         }}
                       >
-                        {group.group_description || 'No description available.'}
+                        {group.description || 'No description available.'}
                       </Typography>
 
-                      <Box display="flex" gap={1} flexWrap="wrap">
-                        <Chip
-                          label={group.privacy_type}
-                          size="small"
-                          color={group.privacy_type === 'public' ? 'success' : 'default'}
-                        />
-                        <Chip label="Active" size="small" color="primary" />
-                      </Box>
-
-                      {group.creator && (
-                        <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-                          Created by: {group.creator.username}
-                        </Typography>
-                      )}
                     </CardContent>
-                    
+
                     <CardActions>
                       <Button
                         size="small"
@@ -159,11 +145,6 @@ const Groups: React.FC = () => {
                       >
                         View Details
                       </Button>
-                      {group.privacy_type === 'public' && (
-                        <Button size="small" color="primary">
-                          Join Group
-                        </Button>
-                      )}
                     </CardActions>
                   </Card>
                 </Grid>
@@ -171,7 +152,7 @@ const Groups: React.FC = () => {
             </Grid>
 
             {/* No results */}
-            {groupsData.groups.length === 0 && (
+            {groupsData.data.length === 0 && (
               <Box textAlign="center" py={4}>
                 <Typography variant="h6" color="text.secondary">
                   {debouncedSearch ? 'No groups found matching your search.' : 'No groups available yet.'}

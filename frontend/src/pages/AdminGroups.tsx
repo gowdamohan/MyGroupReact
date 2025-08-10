@@ -128,25 +128,28 @@ const AdminGroups: React.FC = () => {
   };
 
   const getCategoryChip = (category: string) => {
-    const colors: { [key: string]: 'primary' | 'secondary' | 'warning' | 'info' } = {
+    const colors: { [key: string]: 'primary' | 'secondary' | 'warning' | 'info' | 'success' | 'error' | 'default' } = {
       'Business': 'primary',
       'Social': 'secondary',
       'Educational': 'info',
       'Religious': 'warning',
       'Sports': 'success'
     };
-    
+
+    const color = colors[category] || 'default';
+
     return (
       <Chip
         label={category}
-        color={colors[category] || 'default'}
+        color={color}
         size="small"
+        variant="outlined"
       />
     );
   };
 
   if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorAlert message={error} />;
+  if (error) return <ErrorAlert error={error} />;
 
   return (
     <Box>

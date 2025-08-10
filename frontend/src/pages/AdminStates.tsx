@@ -28,6 +28,7 @@ import {
 } from '@mui/material';
 import { Search, Add, Edit, Map } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import api from '../services/api';
 
 interface State {
   id: number;
@@ -68,11 +69,7 @@ const AdminStates: React.FC = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await request({
-        url: '/admin/countries',
-        method: 'GET'
-      });
-
+      const response = await api.get('/admin/countries');
       if (response.data) {
         setCountries(response.data.countries || []);
       }

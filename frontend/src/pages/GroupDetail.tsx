@@ -87,29 +87,13 @@ const GroupDetail: React.FC = () => {
                   </Avatar>
                   <Box flexGrow={1}>
                     <Typography variant="h4" component="h1" gutterBottom>
-                      {group.group_name}
+                      {group.name}
                     </Typography>
                     <Box display="flex" gap={1} alignItems="center">
-                      <Chip
-                        icon={group.privacy_type === 'public' ? <Public /> : <Lock />}
-                        label={group.privacy_type}
-                        size="small"
-                        color={group.privacy_type === 'public' ? 'success' : 'default'}
-                      />
-                      <Chip
-                        label={group.status}
-                        size="small"
-                        color="primary"
-                      />
+                      {/* Additional group metadata chips could go here if available */}
                     </Box>
                   </Box>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    disabled={group.privacy_type === 'private'}
-                  >
-                    {group.privacy_type === 'public' ? 'Join Group' : 'Private Group'}
-                  </Button>
+                  {/* You can add actions like Join/Leave here when backend fields are available */}
                 </Box>
 
                 <Divider sx={{ my: 3 }} />
@@ -118,7 +102,7 @@ const GroupDetail: React.FC = () => {
                   About this Group
                 </Typography>
                 <Typography variant="body1" paragraph>
-                  {group.group_description || 'No description provided for this group.'}
+                  {group.description || 'No description provided for this group.'}
                 </Typography>
 
                 <Divider sx={{ my: 3 }} />
@@ -131,7 +115,7 @@ const GroupDetail: React.FC = () => {
                     <Box display="flex" alignItems="center" gap={1}>
                       <CalendarToday fontSize="small" />
                       <Typography variant="body2">
-                        {new Date(group.created_date).toLocaleDateString()}
+                        {new Date(group.created_at).toLocaleDateString()}
                       </Typography>
                     </Box>
                   </Grid>
@@ -142,7 +126,7 @@ const GroupDetail: React.FC = () => {
                     <Box display="flex" alignItems="center" gap={1}>
                       <CalendarToday fontSize="small" />
                       <Typography variant="body2">
-                        {new Date(group.updated_date).toLocaleDateString()}
+                        {new Date(group.updated_at).toLocaleDateString()}
                       </Typography>
                     </Box>
                   </Grid>
@@ -157,29 +141,11 @@ const GroupDetail: React.FC = () => {
             <Card sx={{ mb: 3 }}>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
-                  Group Creator
+                  Group Details
                 </Typography>
-                {group.creator ? (
-                  <Box display="flex" alignItems="center" gap={2}>
-                    <Avatar>
-                      <Person />
-                    </Avatar>
-                    <Box>
-                      <Typography variant="subtitle1">
-                        {group.creator.first_name && group.creator.last_name
-                          ? `${group.creator.first_name} ${group.creator.last_name}`
-                          : group.creator.username}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        @{group.creator.username}
-                      </Typography>
-                    </Box>
-                  </Box>
-                ) : (
-                  <Typography variant="body2" color="text.secondary">
-                    Creator information not available
-                  </Typography>
-                )}
+                <Typography variant="body2" color="text.secondary">
+                  This group has no additional metadata available.
+                </Typography>
               </CardContent>
             </Card>
 

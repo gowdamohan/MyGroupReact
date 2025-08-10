@@ -152,7 +152,7 @@ const AdminUsers: React.FC = () => {
   };
 
   if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorAlert message={error} />;
+  if (error) return <ErrorAlert error={error} />;
 
   return (
     <Box>

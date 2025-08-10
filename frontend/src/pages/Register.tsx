@@ -130,10 +130,13 @@ const Register: React.FC = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, checked, type } = e.target;
+    const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+    const name = (target as any).name as keyof typeof formData;
+    const type = (target as any).type as string | undefined;
+    const value = type === 'checkbox' ? (target as HTMLInputElement).checked : target.value;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value as any
     }));
   };
 

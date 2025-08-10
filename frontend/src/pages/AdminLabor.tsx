@@ -25,6 +25,7 @@ import {
 } from '@mui/material';
 import { Search, FilterList, Person, Work, LocationOn } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import api from '../services/api';
 
 interface Labor {
   id: number;
@@ -66,7 +67,7 @@ const AdminLabor: React.FC = () => {
       await refetch();
       if (data) {
         setLabor(data.labor || []);
-        setTotalCount(data.total || data.pagination?.total || 0);
+        setTotalCount(typeof data.total === 'number' ? data.total : 0);
       }
     } catch (error) {
       console.error('Error fetching labor:', error);

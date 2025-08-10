@@ -74,7 +74,7 @@ const Profile: React.FC = () => {
 
   const watchCountry = watch('country_id');
   const watchState = watch('state_id');
-  const newPassword = watchPassword('newPassword');
+  const newPassword = watchPassword('new_password');
 
   useEffect(() => {
     // Load countries
@@ -94,7 +94,7 @@ const Profile: React.FC = () => {
     if (watchCountry) {
       const loadStates = async () => {
         try {
-          const statesData = await geographicAPI.getStates(watchCountry);
+          const statesData = await geographicAPI.getStates(Number(watchCountry));
           setStates(statesData);
           setDistricts([]); // Clear districts
         } catch (error) {
@@ -110,7 +110,7 @@ const Profile: React.FC = () => {
     if (watchState) {
       const loadDistricts = async () => {
         try {
-          const districtsData = await geographicAPI.getDistricts(watchState);
+          const districtsData = await geographicAPI.getDistricts(Number(watchState));
           setDistricts(districtsData);
         } catch (error) {
           console.error('Failed to load districts:', error);
@@ -127,18 +127,14 @@ const Profile: React.FC = () => {
         first_name: user.first_name || '',
         last_name: user.last_name || '',
         phone: user.phone || '',
-        full_name: profile.full_name || '',
         gender: profile.gender || undefined,
-        dob: profile.dob ? profile.dob.split('T')[0] : '',
-        mobile: profile.mobile || '',
-        alternate_mobile: profile.alternate_mobile || '',
+        date_of_birth: profile.date_of_birth ? profile.date_of_birth.split('T')[0] : '',
         address: profile.address || '',
         pincode: profile.pincode || '',
         country_id: profile.country_id || undefined,
         state_id: profile.state_id || undefined,
         district_id: profile.district_id || undefined,
-        profession_id: profile.profession_id || undefined,
-        education_id: profile.education_id || undefined,
+
       });
     }
   }, [user, profile, resetProfile]);
@@ -233,13 +229,7 @@ const Profile: React.FC = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Full Name"
-                    {...registerProfile('full_name')}
-                    error={!!profileErrors.full_name}
-                    helperText={profileErrors.full_name?.message}
-                  />
+
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth>
@@ -261,28 +251,16 @@ const Profile: React.FC = () => {
                     label="Date of Birth"
                     type="date"
                     InputLabelProps={{ shrink: true }}
-                    {...registerProfile('dob')}
-                    error={!!profileErrors.dob}
-                    helperText={profileErrors.dob?.message}
+                    {...registerProfile('date_of_birth')}
+                    error={!!profileErrors.date_of_birth}
+                    helperText={profileErrors.date_of_birth?.message}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Mobile"
-                    {...registerProfile('mobile')}
-                    error={!!profileErrors.mobile}
-                    helperText={profileErrors.mobile?.message}
-                  />
+
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Alternate Mobile"
-                    {...registerProfile('alternate_mobile')}
-                    error={!!profileErrors.alternate_mobile}
-                    helperText={profileErrors.alternate_mobile?.message}
-                  />
+
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -314,7 +292,7 @@ const Profile: React.FC = () => {
                     >
                       {countries.map((country) => (
                         <MenuItem key={country.id} value={country.id}>
-                          {country.country_name}
+                          {country.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -331,7 +309,7 @@ const Profile: React.FC = () => {
                     >
                       {states.map((state) => (
                         <MenuItem key={state.id} value={state.id}>
-                          {state.state_name}
+                          {state.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -348,7 +326,7 @@ const Profile: React.FC = () => {
                     >
                       {districts.map((district) => (
                         <MenuItem key={district.id} value={district.id}>
-                          {district.district_name}
+                          {district.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -380,11 +358,11 @@ const Profile: React.FC = () => {
                     fullWidth
                     label="Current Password"
                     type="password"
-                    {...registerPassword('currentPassword', {
+                    {...registerPassword('current_password', {
                       required: 'Current password is required',
                     })}
-                    error={!!passwordErrors.currentPassword}
-                    helperText={passwordErrors.currentPassword?.message}
+                    error={!!passwordErrors.current_password}
+                    helperText={passwordErrors.current_password?.message}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -392,15 +370,15 @@ const Profile: React.FC = () => {
                     fullWidth
                     label="New Password"
                     type="password"
-                    {...registerPassword('newPassword', {
+                    {...registerPassword('new_password', {
                       required: 'New password is required',
                       minLength: {
                         value: 6,
                         message: 'Password must be at least 6 characters',
                       },
                     })}
-                    error={!!passwordErrors.newPassword}
-                    helperText={passwordErrors.newPassword?.message}
+                    error={!!passwordErrors.new_password}
+                    helperText={passwordErrors.new_password?.message}
                   />
                 </Grid>
               </Grid>

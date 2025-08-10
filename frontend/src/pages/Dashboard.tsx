@@ -36,13 +36,13 @@ const Dashboard: React.FC = () => {
     loading: dashboardLoading,
     error: dashboardError,
     refetch: refetchDashboard
-  } = useApi(() => api.get('/dashboard'));
+  } = useApi<any>(() => api.get('/dashboard'));
 
   const {
     data: activityData,
     loading: activityLoading,
     error: activityError
-  } = useApi(() => api.get('/activity-feed?limit=10'));
+  } = useApi<any>(() => api.get('/activity-feed?limit=10'));
 
   const stats = dashboardData || {};
   const activities = activityData?.activities || [];

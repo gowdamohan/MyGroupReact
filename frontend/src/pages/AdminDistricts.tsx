@@ -28,6 +28,7 @@ import {
 } from '@mui/material';
 import { Search, Add, Edit, LocationOn } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import api from '../services/api';
 
 interface District {
   id: number;

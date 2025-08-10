@@ -25,6 +25,7 @@ import {
 } from '@mui/material';
 import { Search, FilterList, HelpOutline, Person, LocationOn } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import api from '../services/api';
 
 interface NeedyService {
   id: number;
@@ -50,7 +51,9 @@ interface NeedyService {
 }
 
 const AdminNeedy: React.FC = () => {
-  const { request, loading } = useApi();
+  const { data, loading, refetch } = useApi<{ services: NeedyService[]; total?: number; pagination?: { total?: number } }>(() => api.get('/admin/needy', {
+    params: { page: page + 1, limit: rowsPerPage, search, category: categoryFilter, status: statusFilter }
+  }));
   const [services, setServices] = useState<NeedyService[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -61,21 +64,10 @@ const AdminNeedy: React.FC = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await request({
-        url: '/admin/needy',
-        method: 'GET',
-        params: {
-          page: page + 1,
-          limit: rowsPerPage,
-          search,
-          category: categoryFilter,
-          status: statusFilter
-        }
-      });
-
-      if (response.data) {
-        setServices(response.data.services || []);
-        setTotalCount(response.data.pagination?.total || 0);
+      await refetch();
+      if (data) {
+        setServices(data.services || []);
+        setTotalCount(typeof data.total === 'number' ? data.total : (data.pagination?.total || 0));
       }
     } catch (error) {
       console.error('Error fetching needy services:', error);
