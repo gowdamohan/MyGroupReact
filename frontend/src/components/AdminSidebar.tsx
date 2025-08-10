@@ -53,7 +53,7 @@ import {
   Feedback,
   ExitToApp,
   BookmarkBorder,
-  Database,
+  Storage,
   Support,
   Assignment
 } from '@mui/icons-material';
@@ -374,12 +374,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ open }) => {
               {renderMenuItem('/admin/union/staff-applications', <Assignment />, 'Staff Applications')}
             </ListItem>
             <ListItem disablePadding>
-              {renderExpandableMenu('database', <Database />, 'Data Base', (
+              {renderExpandableMenu('database', <Storage />, 'Data Base', (
                 <>
-                  {renderMenuItem('/admin/union/client-database', <Database />, 'Client Database', true)}
-                  {renderMenuItem('/admin/union/public-database', <Database />, 'Public Database', true)}
-                  {renderMenuItem('/admin/union/login-chart', <Database />, 'Public Login Chart', true)}
-                  {renderMenuItem('/admin/union/career-applications', <Database />, 'Career Applications', true)}
+                  {renderMenuItem('/admin/union/client-database', <Storage />, 'Client Database', true)}
+                  {renderMenuItem('/admin/union/public-database', <Storage />, 'Public Database', true)}
+                  {renderMenuItem('/admin/union/login-chart', <Storage />, 'Public Login Chart', true)}
+                  {renderMenuItem('/admin/union/career-applications', <Storage />, 'Career Applications', true)}
                 </>
               ))}
             </ListItem>

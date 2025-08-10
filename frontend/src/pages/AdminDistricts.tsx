@@ -56,7 +56,11 @@ interface State {
 }
 
 const AdminDistricts: React.FC = () => {
-  const { request, loading } = useApi();
+  const { data, loading, refetch } = useApi<{ districts: District[]; countries: Country[]; states: State[] }>(() => api.get('/admin/districts', { params: {
+    countryId: countryFilter !== 'all' ? countryFilter : undefined,
+    stateId: stateFilter !== 'all' ? stateFilter : undefined,
+    search: search || undefined,
+  }}));
   const [districts, setDistricts] = useState<District[]>([]);
   const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<State[]>([]);
@@ -67,20 +71,15 @@ const AdminDistricts: React.FC = () => {
   const [editingDistrict, setEditingDistrict] = useState<District | null>(null);
   const [selectedCountry, setSelectedCountry] = useState('');
 
-  const fetchDistricts = async () => {
+  const fetchDistricts = async () => { /* refactored to use useApi */
     try {
       const params: any = {};
       if (countryFilter !== 'all') params.countryId = countryFilter;
       if (stateFilter !== 'all') params.stateId = stateFilter;
 
-      const response = await request({
-        url: '/admin/districts',
-        method: 'GET',
-        params
-      });
-
-      if (response.data) {
-        setDistricts(response.data.districts || []);
+      await refetch();
+      if (data) {
+        setDistricts(data.districts || []);
       }
     } catch (error) {
       console.error('Error fetching districts:', error);
@@ -89,13 +88,9 @@ const AdminDistricts: React.FC = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await request({
-        url: '/admin/countries',
-        method: 'GET'
-      });
-
-      if (response.data) {
-        setCountries(response.data.countries || []);
+      const res = await api.get('/admin/countries');
+      if (res.data) {
+        setCountries(res.data.countries || []);
       }
     } catch (error) {
       console.error('Error fetching countries:', error);
@@ -104,14 +99,9 @@ const AdminDistricts: React.FC = () => {
 
   const fetchStates = async (countryId?: string) => {
     try {
-      const response = await request({
-        url: '/admin/states',
-        method: 'GET',
-        params: countryId ? { countryId } : {}
-      });
-
-      if (response.data) {
-        setStates(response.data.states || []);
+      const res = await api.get('/admin/states', { params: countryId ? { countryId } : {} });
+      if (res.data) {
+        setStates(res.data.states || []);
       }
     } catch (error) {
       console.error('Error fetching states:', error);

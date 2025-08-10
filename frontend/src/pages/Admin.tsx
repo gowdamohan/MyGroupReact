@@ -49,7 +49,7 @@ import {
   Warning as WarningIcon
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
-import { api } from '../services/api';
+import api from '../services/api';
 
 interface AdminStats {
   totalUsers: number;
@@ -182,7 +182,7 @@ const Admin: React.FC = () => {
       case 'blocked':
         return <BlockIcon fontSize="small" />;
       default:
-        return null;
+        return <></>;
     }
   };
 
@@ -341,12 +341,17 @@ const Admin: React.FC = () => {
                         </TableCell>
                         <TableCell>{user.group}</TableCell>
                         <TableCell>
-                          <Chip
-                            label={user.status}
-                            color={getStatusColor(user.status) as any}
-                            icon={getStatusIcon(user.status)}
-                            size="small"
-                          />
+                          {(() => {
+                            const iconEl = getStatusIcon(user.status);
+                            return (
+                              <Chip
+                                label={user.status}
+                                color={getStatusColor(user.status) as any}
+                                size="small"
+                                {...(iconEl ? { icon: iconEl as React.ReactElement } : {})}
+                              />
+                            );
+                          })()}
                         </TableCell>
                         <TableCell>
                           <Typography variant="body2">

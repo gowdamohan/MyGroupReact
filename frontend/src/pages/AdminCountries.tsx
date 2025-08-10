@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import { Search, Add, Edit, Public, Flag } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import api from '../services/api';
 
 interface Country {
   id: number;
@@ -35,7 +36,8 @@ interface Country {
 }
 
 const AdminCountries: React.FC = () => {
-  const { request, loading } = useApi();
+  const { data, loading, refetch } = useApi<{ countries: Country[] }>(() => api.get('/admin/countries'));
+
   const [countries, setCountries] = useState<Country[]>([]);
   const [search, setSearch] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
@@ -43,13 +45,9 @@ const AdminCountries: React.FC = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await request({
-        url: '/admin/countries',
-        method: 'GET'
-      });
-
-      if (response.data) {
-        setCountries(response.data.countries || []);
+      await refetch();
+      if (data) {
+        setCountries(data.countries || []);
       }
     } catch (error) {
       console.error('Error fetching countries:', error);

@@ -1,8 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
@@ -40,8 +39,8 @@ const AdminCategories = React.lazy(() => import('./pages/AdminCategories'));
 // import AdminProtectedRoute from './components/AdminProtectedRoute';
 
 // Placeholder for AdminLayout and AdminProtectedRoute if they are not provided
-const AdminLayout = ({ children }) => <div>{children}</div>;
-const AdminProtectedRoute = ({ children, requiredRole }) => <div>{children}</div>;
+const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => <div>{children}</div>;
+const AdminProtectedRoute: React.FC<{ children: React.ReactNode; requiredRole: string }> = ({ children, requiredRole }) => <div>{children}</div>;
 
 
 const theme = createTheme({
@@ -59,8 +58,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AuthProvider>
-        <Router>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -69,7 +66,7 @@ function App() {
             <Route
               path="/admin/*"
               element={
-                <ProtectedRoute requiredRole="admin">
+                <ProtectedRoute>
                   <AdminLayout>
                     <Routes>
                       <Route index element={<AdminDashboard />} />
@@ -114,8 +111,6 @@ function App() {
               }
             />
           </Routes>
-        </Router>
-      </AuthProvider>
     </ThemeProvider>
   );
 }

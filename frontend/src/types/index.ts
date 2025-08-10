@@ -1,15 +1,28 @@
 export interface User {
   id: number;
-  username: string;
+  username?: string;
   email: string;
   first_name?: string;
   last_name?: string;
   phone?: string;
   created_at: string;
   updated_at: string;
-  group_id: number;
+  group_id?: number;
   active: boolean;
   profile_img?: string;
+  role?: 'user' | 'admin';
+  name?: string;
+  avatar?: string;
+  date_of_birth?: string;
+  gender?: string;
+  profession?: string;
+  country_id?: string;
+  state_id?: string;
+  district_id?: string;
+  address?: string;
+  pincode?: string;
+  bio?: string;
+  profile_image?: string;
 }
 
 export interface Group {
@@ -82,4 +95,87 @@ export interface Geographic {
   type: 'continent' | 'country' | 'state' | 'district';
   parent_id?: number;
   code?: string;
+}
+
+export interface UserProfile {
+  id: number;
+  user_id: number;
+  bio?: string;
+  avatar?: string;
+  date_of_birth?: string;
+  gender?: string;
+  profession?: string;
+  country_id?: string;
+  state_id?: string;
+  district_id?: string;
+  address?: string;
+  pincode?: string;
+}
+
+export interface Country {
+  id: number;
+  name: string;
+  code?: string;
+}
+
+export interface State {
+  id: number;
+  name: string;
+  country_id: number;
+  code?: string;
+}
+
+export interface District {
+  id: number;
+  name: string;
+  state_id: number;
+  code?: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: User;
+  profile?: UserProfile;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  phone?: string;
+}
+
+export interface ProfileUpdateData {
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  bio?: string;
+  date_of_birth?: string;
+  gender?: string;
+  profession?: string;
+  country_id?: string;
+  state_id?: string;
+  district_id?: string;
+  address?: string;
+  pincode?: string;
+}
+
+export interface ChangePasswordData {
+  current_password: string;
+  new_password: string;
+  confirm_password: string;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }

@@ -34,14 +34,14 @@ import {
   Notifications as NotificationsIcon,
   Language as LanguageIcon,
   Palette as ThemeIcon,
-  Privacy as PrivacyIcon,
+  Security as PrivacyIcon,
   AccountCircle as AccountIcon,
   Edit as EditIcon,
   Save as SaveIcon,
   Cancel as CancelIcon
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
-import { api } from '../services/api';
+import api from '../services/api';
 
 interface UserSettings {
   notifications: {

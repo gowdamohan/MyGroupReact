@@ -34,9 +34,15 @@ async function testConnection() {
     await sequelize.authenticate();
     console.log('Database connection has been established successfully.');
 
-    // Sync all models
-    await sequelize.sync({ alter: true });
+    // Disable foreign key checks temporarily
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
+
+    // Sync all models with force to recreate tables
+    await sequelize.sync({ force: true });
     console.log('Database models synchronized successfully.');
+
+    // Re-enable foreign key checks
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
   } catch (error) {
     console.warn('Unable to connect to the database:', error.message);
     console.log('Running in development mode without database...');

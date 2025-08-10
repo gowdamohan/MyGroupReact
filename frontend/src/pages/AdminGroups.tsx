@@ -38,6 +38,7 @@ import {
   Person as PersonIcon
 } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import api from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
 
@@ -68,7 +69,7 @@ const AdminGroups: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<'view' | 'edit' | 'create'>('view');
 
-  const { data: groupsData, loading, error, refetch } = useApi('/admin/groups');
+  const { data: groupsData, loading, error, refetch } = useApi<{ groups: Group[] }>(() => api.get('/admin/groups'));
 
   useEffect(() => {
     if (groupsData) {

@@ -46,7 +46,7 @@ interface Country {
 }
 
 const AdminStates: React.FC = () => {
-  const { request, loading } = useApi();
+  const { data, loading, refetch } = useApi<{ states: State[]; countries: Country[] }>(() => api.get('/admin/states', { params: countryFilter !== 'all' ? { countryId: countryFilter } : {} }));
   const [states, setStates] = useState<State[]>([]);
   const [countries, setCountries] = useState<Country[]>([]);
   const [search, setSearch] = useState('');
@@ -56,14 +56,10 @@ const AdminStates: React.FC = () => {
 
   const fetchStates = async () => {
     try {
-      const response = await request({
-        url: '/admin/states',
-        method: 'GET',
-        params: countryFilter !== 'all' ? { countryId: countryFilter } : {}
-      });
-
-      if (response.data) {
-        setStates(response.data.states || []);
+      await refetch();
+      if (data) {
+        setStates(data.states || []);
+        setCountries(data.countries || []);
       }
     } catch (error) {
       console.error('Error fetching states:', error);

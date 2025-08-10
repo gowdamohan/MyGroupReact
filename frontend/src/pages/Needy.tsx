@@ -47,7 +47,7 @@ import {
   Cancel as CancelIcon
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
-import { api } from '../services/api';
+import api from '../services/api';
 
 interface NeedyService {
   id: number;

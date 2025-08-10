@@ -37,7 +37,7 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Visibility as ViewIcon,
-  Play as PlayIcon,
+  PlayArrow as PlayIcon,
   Pause as PauseIcon,
   Share as ShareIcon,
   Download as DownloadIcon,
@@ -49,7 +49,7 @@ import {
   Description as EPaperIcon
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
-import { api } from '../services/api';
+import api from '../services/api';
 
 interface MediaItem {
   id: number;

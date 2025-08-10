@@ -23,7 +23,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import { useApi } from '../hooks/useApi';
-import { getUserDashboard, getActivityFeed } from '../services/api';
+import api from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
 
@@ -36,13 +36,13 @@ const Dashboard: React.FC = () => {
     loading: dashboardLoading,
     error: dashboardError,
     refetch: refetchDashboard
-  } = useApi(() => getUserDashboard());
+  } = useApi(() => api.get('/dashboard'));
 
   const {
     data: activityData,
     loading: activityLoading,
     error: activityError
-  } = useApi(() => getActivityFeed(10));
+  } = useApi(() => api.get('/activity-feed?limit=10'));
 
   const stats = dashboardData || {};
   const activities = activityData?.activities || [];

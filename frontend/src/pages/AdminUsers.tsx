@@ -35,6 +35,7 @@ import {
   CheckCircle as CheckCircleIcon
 } from '@mui/icons-material';
 import { useApi } from '../hooks/useApi';
+import api from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
 
@@ -66,7 +67,7 @@ const AdminUsers: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<'view' | 'edit' | 'create'>('view');
 
-  const { data: usersData, loading, error, refetch } = useApi('/admin/users');
+  const { data: usersData, loading, error, refetch } = useApi<{ users: User[] }>(() => api.get('/admin/users'));
 
   useEffect(() => {
     if (usersData) {

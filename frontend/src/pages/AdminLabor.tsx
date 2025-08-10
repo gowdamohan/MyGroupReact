@@ -52,7 +52,7 @@ interface Labor {
 }
 
 const AdminLabor: React.FC = () => {
-  const { request, loading } = useApi();
+  const { data, loading, refetch } = useApi<{ labor: Labor[]; total: number }>(() => api.get('/admin/labor', { params: { page: page + 1, limit: rowsPerPage, search, category: categoryFilter, status: statusFilter } }));
   const [labor, setLabor] = useState<Labor[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -63,21 +63,10 @@ const AdminLabor: React.FC = () => {
 
   const fetchLabor = async () => {
     try {
-      const response = await request({
-        url: '/admin/labor',
-        method: 'GET',
-        params: {
-          page: page + 1,
-          limit: rowsPerPage,
-          search,
-          category: categoryFilter,
-          status: statusFilter
-        }
-      });
-
-      if (response.data) {
-        setLabor(response.data.labor || []);
-        setTotalCount(response.data.pagination?.total || 0);
+      await refetch();
+      if (data) {
+        setLabor(data.labor || []);
+        setTotalCount(data.total || data.pagination?.total || 0);
       }
     } catch (error) {
       console.error('Error fetching labor:', error);

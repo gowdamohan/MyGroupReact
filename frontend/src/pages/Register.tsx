@@ -21,8 +21,8 @@ import {
   StepLabel
 } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { api } from '../services/api';
+import { Link as RouterLink, useNavigate, Navigate } from 'react-router-dom';
+import api from '../services/api';
 
 interface Country {
   id: number;
