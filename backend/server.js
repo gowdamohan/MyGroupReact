@@ -2,7 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
-require('dotenv').config();
+// Load environment-specific .env
+const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : (process.env.NODE_ENV === 'development' ? '.env.development' : '.env');
+require('dotenv').config({ path: envFile });
 
 const app = express();
 

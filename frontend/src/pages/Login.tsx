@@ -18,12 +18,14 @@ import {
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../contexts/AuthContext';
 import { LoginCredentials } from '../types';
+import RegisterModal from '../components/RegisterModal';
 
 const Login: React.FC = () => {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showRegister, setShowRegister] = useState(false);
 
   const {
     register,
@@ -150,8 +152,7 @@ const Login: React.FC = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Button
-                  component={RouterLink}
-                  to="/register"
+                  onClick={() => setShowRegister(true)}
                   fullWidth
                   variant="outlined"
                   size="large"
@@ -173,6 +174,11 @@ const Login: React.FC = () => {
           </Box>
         </Paper>
       </Box>
+      <RegisterModal
+        show={showRegister}
+        onClose={() => setShowRegister(false)}
+        onRegistered={() => navigate('/dashboard')}
+      />
     </Container>
   );
 };

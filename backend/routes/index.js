@@ -12,6 +12,8 @@ const laborRoutes = require('./labor');
 const needyRoutes = require('./needy');
 const geographicRoutes = require('./geographic');
 const uploadRoutes = require('./upload');
+const homeRoutes = require('./public');
+
 
 // Apply routes
 router.use('/auth', authRoutes);
@@ -21,13 +23,15 @@ router.use('/users', usersRoutes);
 router.use('/groups', groupsRoutes);
 router.use('/labor', laborRoutes);
 router.use('/needy', needyRoutes);
+router.use('/', homeRoutes);
+
 router.use('/geographic', geographicRoutes);
 router.use('/upload', uploadRoutes);
 
 // API health check
 router.get('/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
+  res.json({
+    status: 'ok',
     message: 'My Group API is running',
     timestamp: new Date().toISOString()
   });

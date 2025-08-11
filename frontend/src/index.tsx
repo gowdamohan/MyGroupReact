@@ -8,6 +8,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import App from './App';
 import { AuthProvider } from './contexts/AuthContext';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 
 const queryClient = new QueryClient({
   defaultOptions: {

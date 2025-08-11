@@ -14,7 +14,7 @@ import {
   PaginatedResponse
 } from '../types';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = process.env.REACT_APP_API_BASE || 'http://localhost:5000/api';
 
 // Create axios instance
 const api = axios.create({
@@ -63,6 +63,28 @@ export const authAPI = {
     return response.data;
   },
 
+  // Two-step registration API
+  uniqueMobile: async (mobile: string): Promise<{ exists: boolean }> => {
+    const response = await api.get(`/auth/unique-mobile`, { params: { mobile } });
+    return response.data;
+  },
+  registerMetadata: async (): Promise<{ countries: any[]; education: any[]; professions: any[] }> => {
+    const response = await api.get('/auth/register-metadata');
+    return response.data;
+  },
+  uniqueEmail: async (email: string): Promise<{ exists: boolean }> => {
+    const response = await api.get('/auth/unique-email', { params: { email } });
+    return response.data;
+  },
+  registerStep1: async (payload: { first_name: string; country_code: string; mobile_number: string; password: string }): Promise<{ user_id: number; username: string }> => {
+    const response = await api.post('/auth/register-step1', payload);
+    return response.data;
+  },
+  registerStep2: async (payload: any): Promise<AuthResponse & { message: string }> => {
+    const response = await api.post('/auth/register-step2', payload);
+    return response.data;
+  },
+
   getCurrentUser: async (): Promise<{ user: User; profile?: UserProfile }> => {
     const response = await api.get('/auth/me');
     return response.data;
@@ -101,17 +123,17 @@ export const usersAPI = {
 export const geographicAPI = {
   getCountries: async (): Promise<Country[]> => {
     const response = await api.get('/geographic/countries');
-    return response.data;
+    return response.data.countries;
   },
 
   getStates: async (countryId: number): Promise<State[]> => {
     const response = await api.get(`/geographic/states/${countryId}`);
-    return response.data;
+    return response.data.states;
   },
 
   getDistricts: async (stateId: number): Promise<District[]> => {
     const response = await api.get(`/geographic/districts/${stateId}`);
-    return response.data;
+    return response.data.districts;
   },
 };
 

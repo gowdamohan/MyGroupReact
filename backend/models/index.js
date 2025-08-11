@@ -75,9 +75,10 @@ const testConnection = async () => {
     await sequelize.authenticate();
     console.log('Database connection established successfully.');
     
-    // Sync models without altering existing tables
-    await sequelize.sync({ alter: false, force: false });
-    console.log('Database models synchronized successfully.');
+    // Do not sync models to avoid altering existing legacy tables
+    // If you need to generate tables in a dev environment, set an env flag and call sync explicitly.
+    // await sequelize.sync({ alter: false, force: false });
+    console.log('Database connection ready (no model sync).');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
     console.log('Application will continue without database connection.');

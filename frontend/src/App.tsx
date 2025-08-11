@@ -1,12 +1,14 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import ProtectedRoute from './components/ProtectedRoute';
-import Navbar from './components/Navbar';
+import RootLayout from './components/RootLayout';
+import AuthGate from './components/AuthGate';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Groups from './pages/Groups';
 import GroupDetail from './pages/GroupDetail';
@@ -58,9 +60,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+      <AuthGate>
+        <Routes>
+          {/* Public Home route with legacy-like header; popup shows if not authenticated */}
+          <Route path="/" element={<RootLayout><Home /></RootLayout>} />
+
 
             {/* Admin Routes */}
             <Route
@@ -93,24 +97,26 @@ function App() {
             <Route
               path="/*"
               element={
-                <ProtectedRoute>
-                  <Navbar />
-                  <Routes>
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/groups" element={<Groups />} />
-                    <Route path="/groups/:id" element={<GroupDetail />} />
-                    <Route path="/labor" element={<Labor />} />
-                    <Route path="/media" element={<Media />} />
-                    <Route path="/needy" element={<Needy />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/admin" element={<Admin />} />
-                  </Routes>
-                </ProtectedRoute>
+                  <ProtectedRoute>
+                    <RootLayout>
+                      <Routes>
+                        <Route index element={<Home />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/groups" element={<Groups />} />
+                        <Route path="/groups/:id" element={<GroupDetail />} />
+                        <Route path="/labor" element={<Labor />} />
+                        <Route path="/media" element={<Media />} />
+                        <Route path="/needy" element={<Needy />} />
+                        <Route path="/settings" element={<Settings />} />
+                        <Route path="/admin" element={<Admin />} />
+                      </Routes>
+                    </RootLayout>
+                  </ProtectedRoute>
               }
             />
           </Routes>
+        </AuthGate>
     </ThemeProvider>
   );
 }

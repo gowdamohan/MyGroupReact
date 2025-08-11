@@ -25,7 +25,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    // Do not navigate; App-level will show login/registration popups
+    return <></>;
   }
 
   return <>{children}</>;

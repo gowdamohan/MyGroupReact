@@ -7,8 +7,7 @@ const router = express.Router();
 router.get('/countries', async (req, res) => {
   try {
     const countries = await Country.findAll({
-      where: { status: 'Active' },
-      order: [['country_name', 'ASC']]
+      order: [['name', 'ASC']]
     });
 
     res.json({ countries });
@@ -22,11 +21,10 @@ router.get('/countries', async (req, res) => {
 router.get('/states/:countryId', async (req, res) => {
   try {
     const states = await State.findAll({
-      where: { 
-        country_id: req.params.countryId,
-        status: 'Active'
+      where: {
+        country_id: req.params.countryId
       },
-      order: [['state_name', 'ASC']]
+      order: [['name', 'ASC']]
     });
 
     res.json({ states });
@@ -40,11 +38,10 @@ router.get('/states/:countryId', async (req, res) => {
 router.get('/districts/:stateId', async (req, res) => {
   try {
     const districts = await District.findAll({
-      where: { 
-        state_id: req.params.stateId,
-        status: 'Active'
+      where: {
+        state_id: req.params.stateId
       },
-      order: [['district_name', 'ASC']]
+      order: [['name', 'ASC']]
     });
 
     res.json({ districts });
